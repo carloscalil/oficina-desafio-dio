@@ -52,9 +52,9 @@ values ('Filtro de óleo', 2, 20.00);
 
 -- queries
 
--- Atualizar o telefone do cliente João da Silva
+
 update clientes set telefone = '(11) 9876-5432' where
--- Excluir um serviço específico
+
 delete from servicos where id = 1;
 
 select c.nome as cliente, s.descricao asservico, s.data_servico
