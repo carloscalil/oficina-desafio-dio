@@ -38,47 +38,46 @@ create table pecas (
 
 -- Inserindo dados
 
-INSERT INTO clientes (nome, email, telefone, endereco)
-VALUES ('João da Silva', 'joao@example.com', '(11) 1234-5678', 'Rua A, 123');
+insert into clientes (nome, email, telefone, endereco)
+values ('João da Silva', 'joao@example.com', '(11) 1234-5678', 'Rua A, 123');
 
-INSERT INTO veiculos (cliente_id, marca, modelo, ano, placa)
-VALUES (1, 'Chevrolet', 'Onix', 2020, 'ABC1234');
+insert into veiculos (cliente_id, marca, modelo, ano, placa)
+values (1, 'Chevrolet', 'Onix', 2020, 'ABC1234');
 
-INSERT INTO servicos (veiculo_id, descricao, data_servico, valor)
-VALUES (1, 'Troca de óleo', '2023-07-15', 150.00);
+insert into servicos (veiculo_id, descricao, data_servico, valor)
+values (1, 'Troca de óleo', '2023-07-15', 150.00);
 
-INSERT INTO pecas (descricao, quantidade, preco_unitario)
-VALUES ('Filtro de óleo', 2, 20.00);
+insert into pecas (descricao, quantidade, preco_unitario)
+values ('Filtro de óleo', 2, 20.00);
 
 -- queries
 
 -- Atualizar o telefone do cliente João da Silva
-UPDATE clientes SET telefone = '(11) 9876-5432' WHERE id = 1;
-
+update clientes set telefone = '(11) 9876-5432' where
 -- Excluir um serviço específico
-DELETE FROM servicos WHERE id = 1;
+delete from servicos where id = 1;
 
-SELECT c.nome AS cliente, s.descricao AS servico, s.data_servico
-FROM clientes c
-JOIN veiculos v ON c.id = v.cliente_id
-JOIN servicos s ON v.id = s.veiculo_id;
+select c.nome as cliente, s.descricao asservico, s.data_servico
+from clientes c
+join veiculos v on c.id = v.cliente_id
+join servicos s on v.id = s.veiculo_id;
 
-SELECT c.nome AS cliente, s.descricao AS servico, p.descricao AS peca
-FROM clientes c
-JOIN veiculos v ON c.id = v.cliente_id
-JOIN servicos s ON v.id = s.veiculo_id
-JOIN servico_pecas sp ON s.id = sp.servico_id
-JOIN pecas p ON sp.peca_id = p.id;
+select c.nome as cliente, s.descricao as servico, p.descricao as peca
+from clientes c
+join veiculos v on c.id = v.cliente_id
+join servicos s on v.id = s.veiculo_id
+join servico_pecas sp on s.id = sp.servico_id
+join pecas p ON sp.peca_id = p.id;
 
-SELECT s.id AS servico_id, s.descricao AS servico, SUM(p.preco_unitario * sp.quantidade) AS valor_total_pecas
-FROM servicos s
-JOIN servico_pecas sp ON s.id = sp.servico_id
-JOIN pecas p ON sp.peca_id = p.id
-GROUP BY s.id;
+select s.id as servico_id, s.descricao as servico, SUM(p.preco_unitario * sp.quantidade) as valor_total_pecas
+from servicos s
+join servico_pecas sp on s.id = sp.servico_id
+join pecas p on sp.peca_id = p.id
+group by s.id;
 
-SELECT c.nome AS cliente, SUM(s.valor) AS valor_total_servicos
-FROM clientes c
-JOIN veiculos v ON c.id = v.cliente_id
-JOIN servicos s ON v.id = s.veiculo_id
-GROUP BY c.id
-ORDER BY valor_total_servicos DESC;
+select c.nome as cliente, sum(s.valor) as valor_total_servicos
+from clientes c
+join veiculos v ON c.id = v.cliente_id
+join servicos s ON v.id = s.veiculo_id
+group by c.id
+order by valor_total_servicos desc;
